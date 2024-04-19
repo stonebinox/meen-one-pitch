@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Animated} from 'react-native';
+import {SafeAreaView, Animated, TouchableOpacity} from 'react-native';
 import styled from 'styled-components/native';
 
 import {spacing} from './src/utils/spacing';
 import EE from './src/assets/emblem-light.png';
+import {BaseText} from './src/components/common.styles';
 
 const AnimatedView = Animated.View;
 const OneContainer = styled.View`
@@ -21,7 +22,6 @@ const LogoScreen = styled(AnimatedView)`
   align-items: center;
   height: 100%;
   width: 100%;
-  transition: all 0.2s ease;
 `;
 
 const Logo = styled.Image`
@@ -31,21 +31,39 @@ const Logo = styled.Image`
 
 function App(): React.JSX.Element {
   const [fadeAnimation] = useState<Animated.Value>(new Animated.Value(0));
+  const [fadeIn, setFadeIn] = useState<boolean>(false);
 
   useEffect(() => {
+    setFadeIn(true);
+  }, []);
+
+  useEffect(() => {
+    if (fadeIn) {
+      Animated.timing(fadeAnimation, {
+        toValue: 1,
+        duration: 3000,
+        useNativeDriver: true,
+      }).start();
+
+      return;
+    }
+
     Animated.timing(fadeAnimation, {
-      toValue: 1,
-      duration: 3000,
+      toValue: 0,
+      duration: 200,
       useNativeDriver: true,
     }).start();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fadeIn]);
 
   return (
     <SafeAreaView>
       <OneContainer>
         <LogoScreen style={{opacity: fadeAnimation}}>
           <Logo source={EE} resizeMode="contain" />
+          <TouchableOpacity onPress={() => setFadeIn(false)}>
+            <BaseText>tap to continue</BaseText>
+          </TouchableOpacity>
         </LogoScreen>
       </OneContainer>
     </SafeAreaView>
