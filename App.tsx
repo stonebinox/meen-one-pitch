@@ -1,29 +1,20 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  useColorScheme,
-} from 'react-native';
+import {SafeAreaView} from 'react-native';
+import styled from 'styled-components/native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {spacing} from './src/utils/spacing';
+
+const OneContainer = styled.View`
+  width: 100vw;
+  height: 100%;
+  background-color: #000;
+  padding: ${spacing.DOUBLE_BASE_SPACING}px;
+`;
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}></ScrollView>
+    <SafeAreaView>
+      <OneContainer />
     </SafeAreaView>
   );
 }
